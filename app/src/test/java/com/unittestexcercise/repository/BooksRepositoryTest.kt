@@ -4,8 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import com.unittestexcercise.MockKRule
 import com.unittestexcercise.networkapi.BookApi
 import com.unittestexcercise.networkapi.model.BookResponse
+import com.unittestexcercise.networkapi.model.UpdateAuthorRequest
 import com.unittestexcercise.stubs.BookResponseStub
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -19,12 +21,17 @@ class BooksRepositoryTest {
         val SOME_BOOK = BookResponseStub.new()
         val SOME_BOOKS = listOf(SOME_BOOK)
         val SOME_EMPTY_LIST: List<BookResponse> = emptyList()
+
+        //        val SOME_UPDATE : UpdateAuthorRequest = mockk()
+        private const val SOME_BOOK_ID = 1
+        private const val SOME_BOOK_AUTHOR = "author"
+        private val SOME_UPDATE = UpdateAuthorRequest(SOME_BOOK_ID, SOME_BOOK_AUTHOR)
     }
 
     @get: Rule
     val mockkRule = MockKRule()
 
-    @MockK
+    @MockK(relaxUnitFun = true)
     private lateinit var mockBookApi: BookApi
 
     @InjectMockKs
@@ -34,6 +41,8 @@ class BooksRepositoryTest {
     fun setup() {
         // GIVEN
         coEvery { mockBookApi.getBooks() } returns SOME_BOOKS
+        coEvery { mockBookApi.getBook(SOME_BOOK.id) } returns SOME_BOOK
+//        coEvery { mockBookApi.updateBookAuthor(SOME_UPDATE) } just runs
     }
 
     @Test
@@ -59,9 +68,6 @@ class BooksRepositoryTest {
 
     @Test
     fun `getBook() - THEN book returned from book api`() {
-        // GIVEN
-        coEvery { mockBookApi.getBook(SOME_BOOK.id) } returns SOME_BOOK
-
         // WHEN
         val result = runBlocking { subject.getBook(SOME_BOOK.id) }
 
@@ -72,5 +78,12 @@ class BooksRepositoryTest {
 //            assertThat(result).isEqualTo(this)
 //        }
         assertThat(result).isEqualTo(SOME_BOOK)
+    }
+
+    @Test
+    fun `updateAuthor() -THEN updateBookAuthor is called on book api`() {
+        runBlocking { subject.updateAuthor(SOME_BOOK_ID, SOME_BOOK_AUTHOR) }
+
+        coVerify { mockBookApi.updateBookAuthor(SOME_UPDATE) }
     }
 }
