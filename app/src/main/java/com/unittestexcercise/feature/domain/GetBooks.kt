@@ -2,7 +2,7 @@ package com.unittestexcercise.feature.domain
 
 import com.unittestexcercise.domain.UseCaseResult
 import com.unittestexcercise.feature.model.Book
-import com.kinandcarta.unittestexercises.feature.mapper.toBook
+import com.unittestexcercise.feature.mapper.toBook
 import com.unittestexcercise.repository.BooksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

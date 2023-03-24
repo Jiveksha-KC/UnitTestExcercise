@@ -1,4 +1,4 @@
-package com.kinandcarta.unittestexercises.feature.mapper
+package com.unittestexcercise.feature.mapper
 
 import com.unittestexcercise.feature.model.Book
 import com.unittestexcercise.networkapi.model.BookResponse
