@@ -1,8 +1,8 @@
-package com.unittestexcercise.domain
+package com.unittestexcercise.feature.domain
 
 import com.google.common.truth.Truth.assertThat
 import com.unittestexcercise.MockKRule
-import com.unittestexcercise.feature.domain.GetBooks
+import com.unittestexcercise.domain.UseCaseResult
 import com.unittestexcercise.feature.mapper.toBook
 import com.unittestexcercise.feature.model.Book
 import com.unittestexcercise.networkapi.model.BookResponse
